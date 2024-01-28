@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Partition the array into two parts using a pivot element
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high]; // Choose the last element as the pivot
+    int i = low - 1; // Index of the smaller element
+
+    for (int j = low; j <= high - 1; j++) {
+        // If current element is greater than or equal to the pivot
+        if (arr[j] >= pivot) {
+            i++; // Increment index of smaller element
+            // Swap arr[i] and arr[j]
+            swap(arr[i], arr[j]);
+        }
+    }
+    // Swap arr[i + 1] and arr[high] (pivot)
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+// Quicksort function
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        // pi is partitioning index, arr[pi] is now at right place
+        int pi = partition(arr, low, high);
+
+        // Separate elements before and after partition, and recursively sort them
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Function to display the elements of an array
+void displayArray(const vector<int>& arr) {
+    for (int num : arr) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    // Input array
+    vector<int> arr = {12, 11, 13, 5, 6, 7};
+
+    cout << "Original Array: ";
+    displayArray(arr);
+
+    // Sort the array in descending order using quicksort
+    quickSort(arr, 0, arr.size() - 1);
+
+    cout << "Array sorted in descending order: ";
+    displayArray(arr);
+
+    return 0;
+}
